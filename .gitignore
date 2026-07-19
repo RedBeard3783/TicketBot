@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Node.js / TicketBot
+node_modules/
+package-lock.json
+dist/
+*.js.map
+.env
+.env.local
+.env.production
+logs/
+*.log
+npm-debug.log*
+*.tsbuildinfo
+tmp/
+temp/

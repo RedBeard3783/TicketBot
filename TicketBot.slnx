@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="TicketBot/TicketBot.esproj">
+  <Project Path="TicketBot.esproj">
     <Build />
     <Deploy />
   </Project>
