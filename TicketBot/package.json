@@ -1,11 +1,11 @@
 {
   "name": "ticketbot",
   "version": "1.0.0",
-  "description": "Advanced BattleMetrics Ticket System voor Rust-server",
-  "main": "dist/bot.js",
+  "description": "Advanced Discord Ticket System with BattleMetrics & PlatformSync integration",
+  "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/bot.js",
+    "start": "node index.js",
     "dev": "ts-node src/bot.ts",
     "watch": "tsc -w",
     "deploy-commands": "ts-node src/deploy-commands.ts",
@@ -17,7 +17,8 @@
     "bot",
     "rust",
     "battlemetrics",
-    "tickets"
+    "tickets",
+    "pterodactyl"
   ],
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 # TicketBot - Discord Ticket System
 
-A feature-rich Discord ticket system bot with BattleMetrics integration, multiple account linking methods, and fully configurable messages.
+A feature-rich Discord ticket system bot with BattleMetrics integration, multiple account linking methods, and fully configurable messages. **Pterodactyl-ready with automatic setup!**
 
 ## ✨ **Features**
 
@@ -9,75 +9,40 @@ A feature-rich Discord ticket system bot with BattleMetrics integration, multipl
 - 🔗 **Flexible Account Linking** - Support for PlatformSync API, MySQL database, or Discord connections
 - 🌍 **Fully Localized** - All text configurable via `config.yaml` (English by default)
 - 📊 **Category-Aware Channels** - Ticket channels show category type at a glance
-- ⚡ **Performance Optimized** - Built-in caching and rate limiting
+- ⚡ **Auto-setup** - `index.js` handles dependency installation and building automatically
 - 🔒 **Staff Controls** - Claim/close buttons with permission checks
 - 📝 **Comprehensive Logging** - All ticket actions logged to dedicated channel
-- 🦅 **Pterodactyl Ready** - Fully compatible with Pterodactyl panel hosting
 
-## 📋 **Requirements**
+## 🚀 **Quick Start (Pterodactyl)**
 
-- **Node.js** 18.0.0 or higher
-- **Discord Bot** with proper permissions
-- **(Optional)** MySQL database for user linking
-- **(Optional)** [PlatformSync API key](https://www.platformsync.io/) for account linking
-- **(Optional)** BattleMetrics API key for player stats
+### **1. Upload Files**
 
-## 🚀 **Quick Start**
+Upload all files to your Pterodactyl server's root directory via SFTP or file manager.
 
-### **Local Development**
-
-```bash
-# Clone the repository
-git clone https://github.com/YOUR-REPO/TicketBot.git
-cd TicketBot
-
-# Install dependencies
-npm install
-
-# Copy and configure environment
-cp .env.example .env
-# Edit .env with your tokens
-
-# Configure the bot
-# Edit config.yaml with your Discord server IDs
-
-# Build the project
-npm run build
-
-# Deploy Discord commands
-npm run deploy-commands
-
-# Start the bot
-npm run start
+**File structure:**
+```
+/home/container/
+├── src/              # Source code
+├── config.yaml       # Your Discord server settings
+├── index.js          # Main entry (auto-installs & builds)
+├── package.json      # Dependencies
+├── tsconfig.json     # TypeScript config
+└── .env.example      # Environment template
 ```
 
-### **Pterodactyl Panel** ⭐
+### **2. Set Environment Variables**
 
-See [PTERODACTYL_SETUP.md](PTERODACTYL_SETUP.md) for detailed deployment instructions.
-
-**Quick Steps:**
-1. Create NodeJS server on Pterodactyl
-2. Upload files or git clone
-3. Set environment variables in panel
-4. Configure `config.yaml`
-5. Run: `npm install && npm run build && npm run deploy-commands`
-6. Start the server
-
-## ⚙️ **Configuration**
-
-### **1. Environment Variables (.env or Pterodactyl Startup)**
-
-```env
-DISCORD_TOKEN=your_discord_bot_token
-DISCORD_CLIENT_ID=your_discord_client_id
-PLATFORMSYNC_API_KEY=your_platformsync_key
-BATTLEMETRICS_API_KEY=your_battlemetrics_key
-BATTLEMETRICS_SERVER_ID=your_server_id
+In Pterodactyl **Startup** tab, add:
+```
+DISCORD_TOKEN=your_bot_token_here
+DISCORD_CLIENT_ID=your_client_id_here
+PLATFORMSYNC_API_KEY=your_platformsync_key_here
 NODE_ENV=production
 ```
 
-### **2. Bot Configuration (config.yaml)**
+### **3. Configure config.yaml**
 
+Edit via Pterodactyl file manager:
 ```yaml
 discord:
   guildId: "YOUR_GUILD_ID"
@@ -85,93 +50,130 @@ discord:
 	categoryId: "YOUR_CATEGORY_ID"
 	staffRoleId: "YOUR_STAFF_ROLE_ID"
 	logChannelId: "YOUR_LOG_CHANNEL_ID"
-	maxTicketsPerUser: 3
+```
+
+### **4. Deploy Commands (One Time)**
+
+In Pterodactyl console:
+```bash
+npm run deploy-commands
+```
+
+### **5. Start the Bot**
+
+Just click **Start** in Pterodactyl! The `index.js` will:
+- ✅ Auto-install dependencies
+- ✅ Auto-build TypeScript
+- ✅ Start the bot
+
+**That's it!** 🎉
+
+---
+
+## 📋 **What You Need**
+
+- **Node.js** 18.0.0 or higher
+- **Discord Bot Token** ([discord.com/developers](https://discord.com/developers/applications))
+- **(Optional)** [PlatformSync API key](https://www.platformsync.io/)
+- **(Optional)** BattleMetrics API key
+
+---
+
+## ⚙️ **Configuration**
+
+### **Environment Variables** (Pterodactyl Startup Tab)
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DISCORD_TOKEN` | ✅ Yes | Your Discord bot token |
+| `DISCORD_CLIENT_ID` | ✅ Yes | Your Discord application ID |
+| `PLATFORMSYNC_API_KEY` | ⚠️ Optional | PlatformSync API key for account linking |
+| `BATTLEMETRICS_API_KEY` | ⚠️ Optional | BattleMetrics API for player stats |
+| `BATTLEMETRICS_SERVER_ID` | ⚠️ Optional | Your Rust server ID |
+| `NODE_ENV` | ✅ Yes | Set to `production` |
+
+### **config.yaml** (Discord Server Settings)
+
+```yaml
+discord:
+  guildId: "123456789"              # Your Discord server ID
+
+  tickets:
+	categoryId: "123456789"         # Category where tickets are created
+	staffRoleId: "123456789"        # Role that can manage tickets
+	logChannelId: "123456789"       # Channel for ticket logs
+	createChannelId: "123456789"    # (Optional) Legacy create channel
+	autoCloseAfterHours: 48         # Auto-close after X hours
+	maxTicketsPerUser: 3            # Max open tickets per user
 
 accountLinking:
-  method: "platformsync"  # Options: database, discord, platformsync, multi
+  method: "platformsync"            # Options: platformsync, database, multi
 
 platformsync:
   enabled: true
 
 database:
-  enabled: false
+  enabled: false                    # Set true if using MySQL
 ```
 
-See the config.yaml file for all available options and message customization.
+**How to get Discord IDs:**
+1. Enable Developer Mode (Discord Settings → Advanced → Developer Mode)
+2. Right-click servers/channels/roles → Copy ID
 
-## 🔗 **Account Linking Methods**
-
-The bot supports 4 different methods for linking Discord users to Steam IDs:
-
-| Method | Description | Setup Difficulty | External Dependency |
-|--------|-------------|------------------|---------------------|
-| **PlatformSync** ⭐ | Uses PlatformSync API (recommended) | Easy | Yes |
-| **Database** | Direct MySQL integration | Medium | No |
-| **Discord** | Built-in connected accounts | Easy | No (not fully implemented) |
-| **Multi** | Try all methods with fallback | Easy | Optional |
-
-See [ACCOUNT_LINKING.md](ACCOUNT_LINKING.md) for detailed setup guides.
-
-## 📚 **Documentation**
-
-- 🦅 **[Pterodactyl Setup Guide](PTERODACTYL_SETUP.md)** - Deploy on Pterodactyl panel
-- 🔗 **[Account Linking Guide](ACCOUNT_LINKING.md)** - Configure Steam ID linking
-- 🎨 **[Message Customization](config.yaml)** - Edit all user-facing text
+---
 
 ## 🎮 **Commands**
 
 | Command | Description | Permissions |
 |---------|-------------|-------------|
-| `/setup-tickets` | Post ticket panel with category buttons | Administrator |
-| `/ticket` | Open a ticket (legacy command) | Everyone |
+| `/setup-tickets` | Post ticket panel with buttons | Administrator |
+| `/ticket` | Open a ticket (legacy) | Everyone |
 
-**Button Categories:**
-- 🎫 Support - General questions and help
-- ⛔ Ban Appeal - Appeal against a ban
-- 📢 Report - Report a player or issue
-- ❓ Question - Questions about the server
-- 📝 Other - Other requests
+**Ticket Categories:**
+- 🎫 Support
+- ⛔ Ban Appeal
+- 📢 Report
+- ❓ Question
+- 📝 Other
 
-## 🏗️ **Project Structure**
+---
 
+## 🔗 **Account Linking**
+
+Support for multiple Steam ID linking methods:
+
+| Method | Description | Setup |
+|--------|-------------|-------|
+| **PlatformSync** ⭐ | Uses PlatformSync API | Easy - just add API key |
+| **MySQL Database** | Direct database integration | Medium - requires DB setup |
+| **Multi** | Try all methods with fallback | Easy - enable both |
+
+See [ACCOUNT_LINKING.md](ACCOUNT_LINKING.md) for detailed setup.
+
+---
+
+## 🛠️ **Commands Reference**
+
+```bash
+# Deploy Discord commands (first time / after changes)
+npm run deploy-commands
+
+# Start the bot (auto-installs & builds)
+npm start
+
+# Development mode
+npm run dev
+
+# Manual build
+npm run build
 ```
-TicketBot/
-├── src/
-│   ├── bot.ts                      # Main bot entry point
-│   ├── deploy-commands.ts          # Command deployment script
-│   ├── commands/
-│   │   ├── setup-tickets.ts        # Persistent panel command
-│   │   └── ticket.ts               # Legacy ticket command
-│   ├── events/
-│   │   └── interactionCreate.ts    # Handle buttons/modals/commands
-│   ├── services/
-│   │   ├── AccountLinkingService.ts # Unified linking service
-│   │   ├── PlatformSyncService.ts   # PlatformSync API client
-│   │   ├── DatabaseService.ts       # MySQL integration
-│   │   └── BattleMetricsService.ts  # BattleMetrics API client
-│   ├── config/
-│   │   └── loader.ts               # Config file loader
-│   └── types/
-│       └── index.ts                # TypeScript type definitions
-├── config.yaml                     # Main configuration file
-├── .env.example                    # Environment template
-├── start.sh                        # Pterodactyl startup script
-└── package.json                    # Dependencies
-```
+
+---
 
 ## 🎨 **Customization**
 
-All user-facing text can be customized in `config.yaml` under the `messages` section:
+All text is editable in `config.yaml` under `messages`:
 
-- Ticket panel title, description, footer
-- Category descriptions
-- Button labels
-- Modal titles and placeholders
-- Success/error messages
-- Embed field names
-- Log messages
-
-Example:
 ```yaml
 messages:
   panel:
@@ -181,113 +183,114 @@ messages:
   buttons:
 	support: "Support"
 	banAppeal: "Ban Appeal"
+
+  modal:
+	title: "📋 New Support Ticket"
 ```
 
-## 🛠️ **Development Scripts**
-
-```bash
-npm run dev           # Start with ts-node (development)
-npm run build         # Compile TypeScript to JavaScript
-npm run start         # Start compiled bot
-npm run watch         # Watch mode for development
-npm run deploy-commands  # Register/update Discord commands
-npm run lint          # Run ESLint
-```
-
-## 🦅 **Pterodactyl Deployment**
-
-Perfect for game server communities! The bot runs smoothly on Pterodactyl panels:
-
-✅ **NodeJS Egg Compatible**  
-✅ **Low Resource Usage** (100-300MB RAM)  
-✅ **Auto-restart Support**  
-✅ **Environment Variable Management**  
-✅ **Easy Updates via Git**  
-
-See the complete [Pterodactyl Setup Guide](PTERODACTYL_SETUP.md) for step-by-step instructions.
-
-## 🐛 **Troubleshooting**
-
-### Common Issues
-
-**Bot doesn't respond to commands**
-- Run `npm run deploy-commands`
-- Verify bot has `applications.commands` scope
-- Check bot permissions in Discord server
-
-**"Configuration loading failed"**
-- Validate YAML syntax in config.yaml
-- Ensure all required Discord IDs are filled
-
-**"Database connection failed"**
-- Set `database.enabled: false` if not using MySQL
-- Verify database credentials if you are using it
-
-**"PlatformSync authentication failed"**
-- Check `PLATFORMSYNC_API_KEY` in .env or environment
-- Verify API key is active at platformsync.io
-
-See [PTERODACTYL_SETUP.md](PTERODACTYL_SETUP.md#troubleshooting) for more solutions.
-
-## 📊 **Performance**
-
-- **RAM Usage:** 100-300MB (depending on cache size)
-- **CPU Usage:** Minimal (event-driven)
-- **Startup Time:** ~2-5 seconds
-- **Response Time:** <500ms for ticket creation
-
-### Optimization Tips
-
-1. Increase cache times to reduce API calls
-2. Disable unused features (database, BattleMetrics)
-3. Use `NODE_ENV=production` for better performance
-4. Enable caching in PlatformSync/BattleMetrics services
-
-## 🔒 **Security**
-
-- ✅ Environment variables for sensitive data
-- ✅ Permission checks on all staff actions
-- ✅ Rate limiting on external APIs
-- ✅ Input validation on all user inputs
-- ✅ Type-safe TypeScript codebase
-
-**Never commit:**
-- `.env` file
-- API keys
-- Database credentials
-
-## 📝 **License**
-
-ISC License - See LICENSE file for details
-
-## 🤝 **Contributing**
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 💡 **Support**
-
-- 📖 Check the documentation files
-- 🐛 Report issues on GitHub
-- 💬 Ask questions in discussions
-
-## 🙏 **Credits**
-
-- [discord.js](https://discord.js.org/) - Discord API library
-- [PlatformSync](https://www.platformsync.io/) - Account linking service
-- [BattleMetrics](https://www.battlemetrics.com/) - Game server stats
+**Everything is customizable:**
+- Panel text & footer
+- Button labels
+- Modal fields
+- Success/error messages
+- Embed field names
 
 ---
 
-**Made with ❤️ for the gaming community**
+## 🐛 **Troubleshooting**
 
-### **Deployment Options**
+### **Bot doesn't start**
+- Check `DISCORD_TOKEN` is set in environment variables
+- Verify `config.yaml` syntax (use a YAML validator)
+- Check console for error messages
 
-- 🦅 Pterodactyl Panel (see [setup guide](PTERODACTYL_SETUP.md))
-- 💻 Local/VPS deployment
-- ☁️ Cloud hosting (Heroku, Railway, etc.)
+### **Commands not showing**
+- Run `npm run deploy-commands`
+- Wait 5-10 minutes for Discord to sync
+- Bot needs `applications.commands` scope
+
+### **"No Steam ID found"**
+- Set `accountLinking.method` in config.yaml
+- Verify PlatformSync API key if using that method
+- Or disable: set `platformsync.enabled: false`
+
+### **Database errors**
+- If not using MySQL, set `database.enabled: false`
+- Verify credentials if you are using it
+
+---
+
+## 📊 **Performance**
+
+- **RAM Usage:** 100-300MB
+- **CPU Usage:** Minimal (event-driven)
+- **Startup Time:** ~5-10 seconds (includes auto-install/build)
+- **Response Time:** <500ms
+
+---
+
+## 📁 **Project Structure**
+
+```
+TicketBot/
+├── index.js                        # 🚀 Main entry (auto-setup)
+├── package.json                    # Dependencies
+├── config.yaml                     # Your settings
+├── src/
+│   ├── bot.ts                      # Bot core
+│   ├── commands/                   # Slash commands
+│   ├── events/                     # Discord events
+│   └── services/                   # API integrations
+└── dist/                           # Compiled JS (auto-generated)
+```
+
+---
+
+## 🦅 **Why It's Perfect for Pterodactyl**
+
+✅ **Single `index.js` entry** - Just like other bots  
+✅ **Auto-installs packages** - No manual npm install needed  
+✅ **Auto-builds TypeScript** - Handles compilation automatically  
+✅ **Low resources** - 100-300MB RAM  
+✅ **NodeJS egg compatible** - Works with standard eggs  
+✅ **Environment variables** - Uses Pterodactyl's built-in system  
+
+---
+
+## 📚 **Documentation**
+
+- 🦅 **[PTERODACTYL_SETUP.md](PTERODACTYL_SETUP.md)** - Detailed deployment guide
+- 🔗 **[ACCOUNT_LINKING.md](ACCOUNT_LINKING.md)** - PlatformSync & linking setup
+- 🎨 **config.yaml** - All customization options
+
+---
+
+## 🔒 **Security**
+
+✅ Environment variables for tokens  
+✅ Permission checks on staff actions  
+✅ Rate limiting on APIs  
+✅ Type-safe TypeScript code  
+
+**Never commit:**
+- `.env` files
+- API keys
+- Tokens
+
+---
+
+## 📝 **License**
+
+ISC License
+
+---
+
+## 🙏 **Credits**
+
+- [discord.js](https://discord.js.org/)
+- [PlatformSync](https://www.platformsync.io/)
+- [BattleMetrics](https://www.battlemetrics.com/)
+
+---
+
+**Made with ❤️ for gaming communities**
