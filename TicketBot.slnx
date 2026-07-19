@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TicketBot/TicketBot.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>

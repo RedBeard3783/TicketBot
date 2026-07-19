@@ -1,0 +1,42 @@
+{
+  "name": "ticketbot",
+  "version": "1.0.0",
+  "description": "Advanced BattleMetrics Ticket System voor Rust-server",
+  "main": "dist/bot.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/bot.js",
+    "dev": "ts-node src/bot.ts",
+    "watch": "tsc -w",
+    "deploy-commands": "ts-node src/deploy-commands.ts",
+    "lint": "eslint src/**/*.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "rust",
+    "battlemetrics",
+    "tickets"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "mysql2": "^3.11.5",
+    "axios": "^1.7.9",
+    "yaml": "^2.6.1",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "eslint": "^10.7.0",
+    "typescript": "^5.7.3",
+    "ts-node": "^10.9.2",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

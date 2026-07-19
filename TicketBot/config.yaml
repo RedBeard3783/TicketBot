@@ -1,0 +1,237 @@
+# Discord Server Configuration
+discord:
+  # Guild ID where the bot is active
+  guildId: "YOUR_GUILD_ID_HERE"
+
+  # Ticket System Configuration
+  tickets:
+    # Category ID where ticket channels are created
+    categoryId: "YOUR_CATEGORY_ID_HERE"
+
+    # Staff role ID that can manage tickets
+    staffRoleId: "YOUR_STAFF_ROLE_ID_HERE"
+
+    # Channel ID for ticket logs
+    logChannelId: "YOUR_LOG_CHANNEL_ID_HERE"
+
+    # Channel ID for ticket creation (where users can open tickets)
+    createChannelId: "YOUR_CREATE_CHANNEL_ID_HERE"
+
+    # Auto-close after X hours of inactivity (0 = disabled)
+    autoCloseAfterHours: 48
+
+    # Maximum number of open tickets per user
+    maxTicketsPerUser: 3
+
+# BattleMetrics Configuration
+battlemetrics:
+  # Fetch player stats interval (in seconds)
+  cacheTime: 300
+
+  # Rate limiting
+  rateLimit:
+    maxRequests: 60
+    perSeconds: 60
+
+# Bot Behavior
+bot:
+  # Status message
+  status: "🎫 Tickets | /ticket"
+
+  # Activity type (PLAYING, WATCHING, LISTENING, COMPETING)
+  activityType: "WATCHING"
+
+  # Embed colors (hex without #)
+  colors:
+    primary: "5865F2"
+    success: "57F287"
+    warning: "FEE75C"
+    error: "ED4245"
+
+# Database Configuration
+database:
+  # Enable database for Steam ID lookups
+  # Set to false to use other methods only
+  enabled: false
+
+  # Table name for Discord <-> Steam ID mapping
+  tableName: "user_links"
+
+  # Column names
+  columns:
+    discordId: "discord_id"
+    steamId: "steam_id"
+
+# Account Linking Configuration
+accountLinking:
+  # Primary method for Steam ID lookup
+  # Options: "database", "discord", "platformsync", "multi"
+  # - database: Use MySQL database only
+  # - discord: Use Discord's built-in connected accounts only
+  # - platformsync: Use PlatformSync API only
+  # - multi: Try all enabled methods (priority: discord -> platformsync -> database)
+  method: "platformsync"
+
+# PlatformSync API Configuration
+platformsync:
+  # Enable PlatformSync for Steam ID lookups
+  enabled: true
+
+  # Your PlatformSync API key (get from https://www.platformsync.io/)
+  apiKey: "YOUR_PLATFORMSYNC_API_KEY_HERE"
+
+  # API endpoint
+  apiUrl: "https://api.platformsync.io/v1"
+
+  # Cache settings
+  cacheTime: 3600  # Cache Steam IDs for 1 hour (in seconds)
+
+  # Rate limiting
+  rateLimit:
+    maxRequests: 100
+    perMinute: 60
+
+# Customizable Messages (all user-facing text)
+messages:
+  # Ticket Panel Configuration
+  panel:
+    title: "🎫 Support Ticket System"
+    description: |
+      **Welcome to our Support Ticket System!**
+
+      Click a button below to create a ticket.
+    footer: "Click a button to open a ticket"
+
+    # Category descriptions (shown in panel)
+    categories:
+      support: "🎫 **Support** - General questions and help"
+      banAppeal: "⛔ **Ban Appeal** - Appeal against a ban"
+      report: "📢 **Report** - Report a player or issue"
+      question: "❓ **Question** - Questions about the server"
+      other: "📝 **Other** - Other requests"
+
+    # Additional panel info
+    info:
+      responseTime: "**⏱️ Expected Response Time:**\n5-30 minutes (depending on volume)"
+      rules: |
+        **📌 Rules:**
+        • Be respectful to staff
+        • Provide all relevant information
+        • Maximum {maxTickets} open tickets per person
+        • Spam or abuse will result in a ban
+
+  # Button Labels
+  buttons:
+    support: "Support"
+    banAppeal: "Ban Appeal"
+    report: "Report"
+    question: "Question"
+    other: "Other"
+    claim: "Claim Ticket"
+    close: "Close Ticket"
+
+  # Modal Configuration
+  modal:
+    title: "📋 New Support Ticket"
+
+    subject:
+      label: "Subject"
+      placeholder: "Brief description of your problem/question"
+
+    description:
+      label: "Description"
+      placeholder: |
+        Provide a detailed description...
+
+        Example for Ban Appeal:
+        - What happened?
+        - Why do you think the ban is unfair?
+        - Additional information
+
+  # Ticket Embed Messages
+  ticket:
+    staffEmbed:
+      title: "📋 Ticket: {subject}"
+      description: "**Ticket Information**"
+
+      fields:
+        user: "👤 User"
+        category: "🏷️ Category"
+        discordId: "🆔 Discord ID"
+        description: "📝 Description"
+        steamId: "🆔 Steam ID"
+        playerName: "👤 Player Name"
+        playtime: "⏱️ Playtime"
+        status: "🟢 Status"
+        online: "🟢 Online"
+        offline: "⚫ Offline"
+        lastSeen: "📅 Last Seen"
+        bans: "⛔ Bans"
+        recentBans: "📋 Recent Bans"
+        noBans: "No bans found"
+        noSteamLinked: "⚠️ Steam Account"
+        noSteamMessage: "No Steam ID linked to this Discord account."
+        battlemetricsInfo: "**🎮 BattleMetrics Information**"
+
+      footer: "Ticket ID: {ticketId}"
+
+    welcomeEmbed:
+      title: "👋 Welcome to your Support Ticket!"
+      description: |
+        Thank you for creating a ticket, <@{userId}>!
+
+        A staff member will help you as soon as possible.
+        Make sure to provide all relevant information.
+
+      fields:
+        subject: "📋 Subject"
+        waitTime: "⏱️ Expected Wait Time"
+        waitTimeValue: "5-30 minutes (depending on volume)"
+
+      footer: "You can close this ticket with the \"Close Ticket\" button when your issue is resolved."
+
+  # Action Messages
+  actions:
+    claimed: "✅ Ticket claimed by <@{userId}>"
+    closing: |
+      🔒 Ticket Closed
+
+      This ticket has been closed by <@{userId}>.
+
+      This channel will be deleted in 10 seconds.
+
+  # Log Messages
+  logs:
+    ticketCreated:
+      title: "📋 New Ticket Created"
+      fields:
+        user: "User"
+        category: "Category"
+        steamId: "Steam ID"
+        notLinked: "Not linked"
+        channel: "Channel"
+        subject: "Subject"
+
+    ticketClosed:
+      title: "🔒 Ticket Closed"
+      fields:
+        channel: "Channel"
+        closedBy: "Closed by"
+
+  # Success Messages
+  success:
+    ticketCreated: "✅ Your ticket has been created successfully! Go to <#{channelId}> to continue."
+    panelPosted: "✅ Ticket panel successfully posted with {count} category/categories!"
+    ticketClaimed: "✅ Ticket successfully claimed!"
+
+  # Error Messages
+  errors:
+    generic: "❌ An error occurred. Please try again later."
+    ticketCreationFailed: "❌ An error occurred while creating your ticket. Please contact an administrator."
+    guildOnly: "❌ This command can only be used in a server."
+    noPermission: "❌ You don't have permission to do this."
+    cannotFetchRoles: "❌ Could not fetch your roles."
+    modalError: "❌ An error occurred while opening the ticket form."
+    categorySelectError: "❌ An error occurred. Please try again later."
+    claimError: "❌ An error occurred while claiming the ticket."
+    panelPostError: "❌ An error occurred while posting the ticket panel."
