@@ -32,7 +32,8 @@ async function deployCommands() {
         // Load all command data
         for (const file of commandFiles) {
             const filePath = join(commandsPath, file);
-            const command = await import(filePath);
+            const module = await import(filePath);
+            const command = module.default || module;
 
             if ('data' in command && 'execute' in command) {
                 commands.push(command.data.toJSON());
