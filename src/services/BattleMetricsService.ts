@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { BattleMetricsPlayer, BattleMetricsPlayerStats, BattleMetricsBan, PlayerStatsEmbed } from '../types';
+import { BattleMetricsPlayer, BattleMetricsBan, PlayerStatsEmbed } from '../types';
 import { config } from '../config/loader';
 
 /**

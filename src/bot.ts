@@ -1,6 +1,6 @@
-import { Client, GatewayIntentBits, Collection, ActivityType, REST, Routes } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, ActivityType } from 'discord.js';
 import { config } from './config/loader';
-import { Command, Event, ExtendedClient } from './types';
+import { Command, Event } from './types';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import * as dotenv from 'dotenv';
