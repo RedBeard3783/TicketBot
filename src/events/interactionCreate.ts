@@ -321,8 +321,8 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction): Promise<v
 async function handleButtonInteraction(interaction: ButtonInteraction): Promise<void> {
     const customId = interaction.customId;
 
-    // Create Ticket Button - Show category select menu
-    if (customId === TicketButtonId.CREATE) {
+    // Create Ticket Button - Show category select menu or modal
+    if (customId.startsWith(TicketButtonId.CREATE)) {
         await handleCreateTicketButton(interaction);
     }
     // Claim Ticket
