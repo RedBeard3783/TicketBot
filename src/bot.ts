@@ -44,7 +44,8 @@ class DiscordBot extends Client {
                 if (file === '.gitkeep') continue;
 
                 const filePath = join(commandsPath, file);
-                const command = await import(filePath);
+                const module = await import(filePath);
+                const command = module.default || module;
 
                 if ('data' in command && 'execute' in command) {
                     this.commands.set(command.data.name, command);
@@ -77,7 +78,8 @@ class DiscordBot extends Client {
                 if (file === '.gitkeep') continue;
 
                 const filePath = join(eventsPath, file);
-                const event: Event = await import(filePath);
+                const module = await import(filePath);
+                const event: Event = module.default || module;
 
                 if (event.once) {
                     this.once(event.name, (...args) => event.execute(...args));
