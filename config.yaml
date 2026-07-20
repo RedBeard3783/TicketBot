@@ -140,13 +140,7 @@ messages:
 
     description:
       label: "Description"
-      placeholder: |
-        Provide a detailed description...
-
-        Example for Ban Appeal:
-        - What happened?
-        - Why do you think the ban is unfair?
-        - Additional information
+      placeholder: "Provide detailed description and relevant information..."
 
   # Ticket Embed Messages
   ticket:
