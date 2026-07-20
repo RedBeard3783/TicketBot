@@ -10,11 +10,11 @@ const path = require('path');
 
 console.log('🎫 TicketBot Starting...\n');
 
-// Check if node_modules exists
+// Install all dependencies (including devDependencies needed for TypeScript build)
 if (!fs.existsSync(path.join(__dirname, 'node_modules'))) {
     console.log('📦 Installing dependencies...');
     try {
-        execSync('npm install --production', { stdio: 'inherit' });
+        execSync('npm install', { stdio: 'inherit' });
         console.log('✅ Dependencies installed successfully\n');
     } catch (error) {
         console.error('❌ Failed to install dependencies:', error.message);
@@ -24,20 +24,14 @@ if (!fs.existsSync(path.join(__dirname, 'node_modules'))) {
     console.log('✅ Dependencies already installed\n');
 }
 
-// Check if TypeScript is compiled
-if (!fs.existsSync(path.join(__dirname, 'dist'))) {
-    console.log('🔨 Building TypeScript...');
-    try {
-        // Install dev dependencies for build
-        execSync('npm install --only=dev', { stdio: 'inherit' });
-        execSync('npm run build', { stdio: 'inherit' });
-        console.log('✅ Build completed successfully\n');
-    } catch (error) {
-        console.error('❌ Build failed:', error.message);
-        process.exit(1);
-    }
-} else {
-    console.log('✅ Build directory exists\n');
+// Always build TypeScript to ensure dist/ is up to date
+console.log('🔨 Building TypeScript...');
+try {
+    execSync('npm run build', { stdio: 'inherit' });
+    console.log('✅ Build completed successfully\n');
+} catch (error) {
+    console.error('❌ Build failed:', error.message);
+    process.exit(1);
 }
 
 // Check if config.yaml exists

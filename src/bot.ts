@@ -35,7 +35,7 @@ class DiscordBot extends Client {
 
         try {
             const commandFiles = readdirSync(commandsPath).filter(file => 
-                file.endsWith('.ts') || file.endsWith('.js')
+                (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts')))
             );
 
             console.log(`📂 Loading ${commandFiles.length} command(s)...`);
@@ -68,7 +68,7 @@ class DiscordBot extends Client {
 
         try {
             const eventFiles = readdirSync(eventsPath).filter(file => 
-                file.endsWith('.ts') || file.endsWith('.js')
+                (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts')))
             );
 
             console.log(`📂 Loading ${eventFiles.length} event(s)...`);
