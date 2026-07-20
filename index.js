@@ -48,6 +48,17 @@ if (!process.env.DISCORD_TOKEN && !fs.existsSync(path.join(__dirname, '.env'))) 
     process.exit(1);
 }
 
+// Deploy commands to Discord
+console.log('📤 Deploying slash commands to Discord...');
+try {
+    execSync('npm run deploy-commands', { stdio: 'inherit' });
+    console.log('✅ Commands deployed successfully\n');
+} catch (error) {
+    console.error('❌ Failed to deploy commands:', error.message);
+    console.error('Bot will start but commands may not work');
+    console.error('Try running: npm run deploy-commands\n');
+}
+
 // Start the bot
 console.log('🚀 Starting TicketBot...\n');
 try {
